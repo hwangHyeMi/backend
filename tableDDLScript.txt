@@ -1,0 +1,53 @@
+CREATE TABLE `member` (
+  `MEMBER_ID` bigint NOT NULL,
+  `EMAIL` varchar(45) NOT NULL,
+  `USERNAME` varchar(45) NOT NULL,
+  `PASSWORD` varchar(45) NOT NULL,
+  `ROLE` varchar(45) DEFAULT NULL,
+  `CREATED_DATE` varchar(45) DEFAULT NULL,
+  `MODIFIED_DATE` varchar(45) DEFAULT NULL,
+  `create_date` varchar(255) DEFAULT NULL,
+  `roles` enum('ADMIN','USER') DEFAULT NULL,
+  PRIMARY KEY (`MEMBER_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='유저'
+
+
+CREATE TABLE `board` (
+  `BOARD_ID` bigint NOT NULL,
+  `TITLE` varchar(45) DEFAULT NULL,
+  `CONTENT` varchar(45) DEFAULT NULL,
+  `VIEW_COUNT` int DEFAULT NULL,
+  `CREATED_DATE` varchar(45) DEFAULT NULL,
+  `MODIFIED_DATE` varchar(45) DEFAULT NULL,
+  `MEMBER_ID` bigint DEFAULT NULL,
+  PRIMARY KEY (`BOARD_ID`),
+  KEY `FKsds8ox89wwf6aihinar49rmfy` (`MEMBER_ID`),
+  CONSTRAINT `FKsds8ox89wwf6aihinar49rmfy` FOREIGN KEY (`MEMBER_ID`) REFERENCES `member` (`MEMBER_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='게시판'
+
+CREATE TABLE `comment` (
+  `comment_id` bigint NOT NULL,
+  `create_date` varchar(255) DEFAULT NULL,
+  `modified_date` varchar(255) DEFAULT NULL,
+  `content` varchar(255) DEFAULT NULL,
+  `board_id` bigint DEFAULT NULL,
+  `member_id` bigint DEFAULT NULL,
+  PRIMARY KEY (`comment_id`),
+  KEY `FKlij9oor1nav89jeat35s6kbp1` (`board_id`),
+  KEY `FKmrrrpi513ssu63i2783jyiv9m` (`member_id`),
+  CONSTRAINT `FKlij9oor1nav89jeat35s6kbp1` FOREIGN KEY (`board_id`) REFERENCES `board` (`BOARD_ID`),
+  CONSTRAINT `FKmrrrpi513ssu63i2783jyiv9m` FOREIGN KEY (`member_id`) REFERENCES `member` (`MEMBER_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+CREATE TABLE `file` (
+  `file_id` bigint NOT NULL,
+  `create_date` varchar(255) DEFAULT NULL,
+  `modified_date` varchar(255) DEFAULT NULL,
+  `file_path` varchar(255) DEFAULT NULL,
+  `file_type` varchar(255) DEFAULT NULL,
+  `origin_file_name` varchar(255) DEFAULT NULL,
+  `board_id` bigint DEFAULT NULL,
+  PRIMARY KEY (`file_id`),
+  KEY `FKhxmhyint41lp428u8yxcy4alx` (`board_id`),
+  CONSTRAINT `FKhxmhyint41lp428u8yxcy4alx` FOREIGN KEY (`board_id`) REFERENCES `board` (`BOARD_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
